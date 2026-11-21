@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+
+echo '> Creating venv...'
+python -m venv .venv
+.venv/bin/pip install -e .[uv]
+
+echo $'> uv should be good to go! Let\'s clean things up...'
+.venv/bin/uv sync
+# uv doesn't deseed the environment during sync (ignores seed packages on purpose)
+.venv/bin/uv pip uninstall pip setuptools wheel -y
+
+echo '> Done! Activate the development environment at .venv (e.g., . .venv/bin/activate) to continue.'
